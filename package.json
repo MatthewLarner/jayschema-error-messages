@@ -27,5 +27,8 @@
   "homepage": "https://github.com/MauriceButler/jayschema-error-messages",
   "devDependencies": {
     "tape": "^3.5.0"
+  },
+  "dependencies": {
+    "structured-jayschema-errors": "^1.0.3"
   }
 }

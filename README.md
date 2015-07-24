@@ -29,14 +29,11 @@ This module normalises them into something sane and actionable.
 
     var normalisedErrors = normalise(errorsReturnedFromJaySchema);
 
-    console.log(normalisedErrors);
-
 results in
 
     {
-        fields: {
-            test1: [ 'Required' ],
-            foo: [ 'Required' ],
-            test2: [ 'Must be greater than 4' ]
-        }
+        test1: 'Required',
+        foo: 'Required',
+        bar: 'Required',
+        test3: 'Must be greater than 4'
     }

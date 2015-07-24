@@ -1,3 +1,5 @@
+var structureErrors = require('structured-jayschema-errors');
+
 function getGrammaticlSingular(type){
     switch(type){
         case 'string':
@@ -14,18 +16,6 @@ function getGrammaticlSingular(type){
             return 'null';
         default:
             return 'a ' + type;
-    }
-}
-
-function getFieldName(error){
-    if(error.instanceContext.length > 2){
-        return error.instanceContext.slice(2);
-    } else {
-        if(error.constraintValue){
-            return error.constraintValue[0];
-        } else {
-            return error.constraintName;
-        }
     }
 }
 
@@ -75,42 +65,8 @@ function getValidMessage(error){
     }
 }
 
-function addMessage(fields, error, fieldName){
-    var field,
-        message;
-
-    field = fieldName || getFieldName(error);
-    message = getValidMessage(error);
-
-
-    if(!fields[field]){
-        fields[field] = [];
-    }
-
-    fields[field].push(message);
-}
-
 function normaliseErrorMessages(errors){
-    var fields = {};
-
-    errors.forEach(function(error){
-
-        if(error.constraintName === 'required'){
-            var requiredFields = error.desc.split(': ')[1].split(',');
-            for (var i = 0; i < requiredFields.length; i++) {
-                addMessage(fields, error, requiredFields[i]);
-            }
-        } else {
-            addMessage(fields, error);
-        }
-
-
-    });
-
-    return {
-        fields: fields
-    };
-
+    return structureErrors(errors, getValidMessage);
 }
 
 module.exports = normaliseErrorMessages;
